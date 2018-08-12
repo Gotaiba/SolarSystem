@@ -1,0 +1,176 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.items {
+    padding: 5px 0px 5px 10px;
+    box-shadow: 1px 2px 2px 0px #b3b3b3;
+    background-color: #fff;
+    margin: 5px;
+    border-radius: 3px;
+}
+.item-details h4{
+    display:inline;
+    font-weight:bolder;
+}
+.item-details span {
+    padding-left:5px;
+    font-size:16px;
+}
+.remove-btn{
+    margin-top:2px;
+}
+.remove-btn:hover{
+    cursor:pointer;
+}
+.save-block{
+    width:310px;
+}
+.no-data {
+    margin: 100px 10px;
+    text-align: center;
+    padding: 50px;
+    background-color: #d1e2ff;
+    color: #595959;
+    border-radius: 3px;
+    box-shadow: 1px 2px 5px -1px #6b6b6b;
+}
+.added-items{
+    list-style:none;
+    margin-left:-10px;
+    padding:0px;
+}
+.added-items li{
+    margin-left:10px;
+    display:inline-block;
+}
+.added-items li h4 span a{
+    color:#fff;
+}
+.added-items li h4 span a i{
+    top: 2.2px;
+    left: 3px;
+}
+.feedback-msg {
+    position: relative;
+    top: 5px;
+    float: right;
+}
+.feedback-msg-error {
+    width: 280px;
+    position: absolute;
+    top: 1px;
+    left: 100px;
+}
+.card {
+    padding: 10px;
+    box-shadow: 1px 2px 4px -2px #a0a0a0;
+    border-bottom: 3px solid #65ceff;
+}
+.card p{
+        display: inline;
+    padding: 10px 20px;
+}
+svg {
+    width: 30px;
+    display: inline-block;
+    margin: 0px auto 0;
+    float: left;
+}
+
+.path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+}
+
+    .path.circle {
+        -webkit-animation: dash 0.9s ease-in-out;
+        animation: dash 0.9s ease-in-out;
+    }
+
+    .path.line {
+        stroke-dashoffset: 1000;
+        -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
+        animation: dash 0.9s 0.35s ease-in-out forwards;
+    }
+
+    .path.check {
+        stroke-dashoffset: -100;
+        -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
+        animation: dash-check 0.9s 0.35s ease-in-out forwards;
+    }
+
+p {
+    text-align: center;
+    margin: 2px 0 10px;
+    font-size: 1.25em;
+}
+
+    p.success {
+        color: #73AF55;
+    }
+
+    p.error {
+        color: #D06079;
+    }
+
+@-webkit-keyframes dash {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@-webkit-keyframes dash-check {
+    0% {
+        stroke-dashoffset: -100;
+    }
+
+    100% {
+        stroke-dashoffset: 900;
+    }
+}
+
+@keyframes dash-check {
+    0% {
+        stroke-dashoffset: -100;
+    }
+
+    100% {
+        stroke-dashoffset: 900;
+    }
+}
+

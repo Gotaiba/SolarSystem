@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SolarSystemConsumption.Models.School>
+@{
+    ViewBag.Title = "Home Page";
+}
+<h2 class="page-header">Schools</h2>
+@Html.ActionLink("Create", "AddSchool", "Schools", new { @class = "btn btn-default" })
+<br /><br />
+@if (Model.Count() == 0)
+{
+    @*<div class="no-data">
+            <label>&mdash; No Data &mdash;</label>
+        </div>*@
+    <div class="alert alert-info" role="alert">
+        <strong>Oops!!</strong> there are no schools to show :)
+    </div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>School Name</th>
+                <th>Classes</th>
+                <th>Officese</th>
+                <th>Kafterias</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.ClassesCount</td>
+                        <td>@item.OfficeseCount</td>
+                        <td>@item.KafteriaCount</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="~/School/SchoolResult/@item.Id" class="btn btn-info"><i class="glyphicon glyphicon-file"></i> Result</a>
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="~/School/AddItemsForClasses/@item.Id">Add Classes</a></li>
+                                    <li><a href="~/School/AddItemsForOffices/@item.Id">Add Offices</a></li>
+                                    <li><a href="~/School/AddItemsForKafterias/@item.Id">Add Kafterias</a></li>                                    
+                                </ul>
+                            </div>
+                            <a href="~/School/Delete" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

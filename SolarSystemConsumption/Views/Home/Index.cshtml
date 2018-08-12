@@ -1,0 +1,16 @@
+﻿@model IEnumerable<SolarSystemConsumption.Models.School>
+@{
+    ViewBag.Title = "Home Page";
+}
+<h2 class="page-header">Schools</h2>
+@Html.ActionLink("Create", "AddSchool","Schools",new { @class = "btn btn-default" })
+<br /><br />
+@if(Model.Count()==0)
+{
+    @*<div class="no-data">
+        <label>&mdash; No Data &mdash;</label>
+    </div>*@
+    <div class="alert alert-info" role="alert">
+        <strong>Oops!!</strong> there are no schools to show :)
+    </div>
+}
