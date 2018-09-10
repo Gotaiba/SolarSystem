@@ -39,6 +39,8 @@
                         var AddedItems = (List<SolarSystemConsumption.Models.ItemsInstalled>)ViewBag.AddedItems;
                         foreach (var item in AddedItems)
                         {
+                            if (item.Item != null)
+                            {
                             <li>
                                 <h4>
                                     <span class="label label-success">
@@ -48,8 +50,9 @@
                                     </span>
                                 </h4>
                             </li>
+                                }
+                            }
                         }
-                    }
                 </ul>
             </div>
         </div>
@@ -143,11 +146,17 @@
         $("#additem").click(function () {
             var found = false;
             var selectedItem = $("#Items option:selected").text();
+            var selectedArea = $("#Areas option:selected").text();
             var Qt = $("#ItemQuantity").val();
             if (selectedItem == '[Select Item]') {
                 document.getElementById("Items").focus();
                 $("#Items").parent().parent().addClass('has-error');
                 $("#ItemsValMsg").show();
+            }
+            else if (selectedItem == '[Select Area]') {
+                document.getElementById("Area").focus();
+                $("#Areas").parent().parent().addClass('has-error');
+                $("#AreasValMsg").show();
             }
             else if (!reg.test(Qt))
             {
@@ -166,7 +175,8 @@
                 if (!found) {
                     $("#Installment").append("<div class='col-md-6 items'>" +
                         "<div class= 'col-md-9 item-details'>" +
-                        "<input type='hidden' name='["+count+"].ItemNo' value=" + $("#Items option:selected").val() + ">" +
+                        "<input type='hidden' name='[" + count + "].ItemNo' value=" + $("#Items option:selected").val() + ">" +
+                        "<input type='hidden' name='[" + count + "].AreaNo' value=" + $("#Areas option:selected").val() + ">" +
                         "<input type='hidden' name='[" + count +"].Quantity' value=" + $("#ItemQuantity").val() + ">" +
                         "<h4>" + $("#ItemQuantity").val() + " </h4> <span>" + $("#Items option:selected").text() + "</span> </div>" +
                         "<div class='col-md-3 remove-btn' onclick='removeItem(this)'>" +
@@ -175,8 +185,11 @@
                     $("#ItemCount").val(++count);
                     $("#ItemQuantity").val('');
                     $("#Items").parent().parent().removeClass('has-error');
+                    $("#Areas").parent().parent().removeClass('has-error');
                     $("#ItemQuantity").parent().parent().removeClass('has-error');
                     $("#QtValMsg").hide();
+                    $("#AreasValMsg").hide();
+                    $('#Areas option:contains("[Select Area]")').prop('selected', true);
                     $("#ItemsValMsg").hide();
                     $('#Items option:contains("[Select Item]")').prop('selected', true);
                     if (count == 1) {
@@ -188,8 +201,12 @@
         $("#Items").change(function () {
             var selectedItem = $("#Items option:selected").text();
             $("#Items").parent().parent().removeClass('has-error');
-            $("#ItemsValMsg").hide();
-            
-        })       
+            $("#ItemsValMsg").hide();           
+        })     
+        $("#Areas").change(function () {
+            var selectedItem = $("#Areas option:selected").text();
+            $("#Areas").parent().parent().removeClass('has-error');
+            $("#AreasValMsg").hide();
+        })     
     });
 </script>

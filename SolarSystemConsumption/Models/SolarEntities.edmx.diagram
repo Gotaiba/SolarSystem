@@ -6,11 +6,13 @@
     <edmx:Diagrams>
       <Diagram DiagramId="3199fd1b90144e1a849d0de202a84223" Name="Diagram1">
         <EntityTypeShape EntityType="SolarDbModel.Item" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SolarDbModel.ItemsInstalled" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="SolarDbModel.School" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="SolarDbModel.sysdiagram" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="SolarDbModel.FK_ItemsInstalled_Items" ManuallyRouted="false" />
-        <AssociationConnector Association="SolarDbModel.FK_ItemsInstalled_Schools" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SolarDbModel.Area" Width="1.5" PointX="0.75" PointY="8.875" />
+        <EntityTypeShape EntityType="SolarDbModel.ItemsInstalled" Width="1.5" PointX="5" PointY="4.5" />
+        <AssociationConnector Association="SolarDbModel.FK_ItemsInstalled_Area" />
+        <AssociationConnector Association="SolarDbModel.FK_ItemsInstalled_Items" />
+        <AssociationConnector Association="SolarDbModel.FK_ItemsInstalled_Schools" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

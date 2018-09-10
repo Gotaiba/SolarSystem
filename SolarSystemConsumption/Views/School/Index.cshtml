@@ -21,9 +21,6 @@ else
             <tr>
                 <th>No.</th>
                 <th>School Name</th>
-                <th>Classes</th>
-                <th>Officese</th>
-                <th>Kafterias</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -32,25 +29,20 @@ else
                 foreach(var item in Model)
                 {
                     <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Name</td>
-                        <td>@item.ClassesCount</td>
-                        <td>@item.OfficeseCount</td>
-                        <td>@item.KafteriaCount</td>
                         <td>
-                            <div class="btn-group">
-                                <a href="~/School/SchoolResult/@item.Id" class="btn btn-info"><i class="glyphicon glyphicon-file"></i> Result</a>
-                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="~/School/AddItemsForClasses/@item.Id">Add Classes</a></li>
-                                    <li><a href="~/School/AddItemsForOffices/@item.Id">Add Offices</a></li>
-                                    <li><a href="~/School/AddItemsForKafterias/@item.Id">Add Kafterias</a></li>                                    
-                                </ul>
-                            </div>
-                            <a href="~/School/Delete" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                            <a href="~/School/Edit/@item.Id">
+                                @item.Id
+                            </a>
+                        </td>
+                        <td>
+                            <a href="~/School/Edit/@item.Id">
+                            @item.Name
+                               </a>
+                        </td>                      
+                        <td>
+                            <a href="~/School/SchoolResult/@item.Id" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-file"></i> Result</a>
+                            <a href="~/School/AddItems/@item.Id" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-plus"></i> Items</a>
+                            <a href="~/School/DeleteSchool/@item.Id" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                         </td>
                     </tr>
                 }

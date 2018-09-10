@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SolarSystemConsumption.Models.Area>
+
+@{
+    ViewBag.Title = "GetAreas";
+}
+
+<h2>Areas</h2>
+@Html.ActionLink("Create Area", "CreateArea", "Schools", new { @class = "btn btn-default" })
+<br /><br />
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissable">
+        <strong><i class="glyphicon glyphicon-ok"></i> Created: </strong>
+        @TempData["Success"]
+    </div>
+}
+<table class="table" style="width:500px">
+    <tr>        
+        <th>
+            Area Name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>            
+            <td>
+                @Html.DisplayFor(modelItem => item.AreaName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditArea", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteArea", new { id = item.Id }, new { onclick = "return confirm('Are you sure you wish to delete this area?');" })
+            </td>
+        </tr>
+    }
+
+</table>

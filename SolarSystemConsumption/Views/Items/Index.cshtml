@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SolarSystemConsumption.Models.Item>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Itesm List</h2>
+@Html.ActionLink("Create Item", "Create", "Items", new { @class = "btn btn-default" })
+<br /><br />
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissable">
+        <strong><i class="glyphicon glyphicon-ok"></i> Created: </strong>
+        @TempData["Success"]
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Consumptions)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consumptions)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are you sure you wish to delete this item?');" })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -157,9 +157,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Area.cs">
+      <DependentUpon>SolarEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FinalData.cs" />
     <Compile Include="Models\Item.cs">
@@ -251,9 +255,15 @@
     <Content Include="Views\School\AddSchool.cshtml" />
     <Content Include="Views\School\Index.cshtml" />
     <Content Include="Views\School\AddItemsForClasses.cshtml" />
-    <Content Include="Views\School\AddItemsForOffices.cshtml" />
-    <Content Include="Views\School\AddItemsForKafterias.cshtml" />
     <Content Include="Views\School\SchoolResult.cshtml" />
+    <Content Include="Views\School\Edit.cshtml" />
+    <Content Include="Views\School\AddItems.cshtml" />
+    <Content Include="Views\School\CreateArea.cshtml" />
+    <Content Include="Views\School\GetAreas.cshtml" />
+    <Content Include="Views\School\EditArea.cshtml" />
+    <Content Include="Views\Items\Create.cshtml" />
+    <Content Include="Views\Items\Index.cshtml" />
+    <Content Include="Views\Items\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

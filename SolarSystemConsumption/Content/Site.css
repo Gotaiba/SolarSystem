@@ -23,7 +23,7 @@ textarea {
     max-width: 280px;
 }
 .items {
-    padding: 5px 0px 5px 10px;
+    padding: 5px 0px 5px 0px;
     box-shadow: 1px 2px 2px 0px #b3b3b3;
     background-color: #fff;
     margin: 5px;

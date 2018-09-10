@@ -39,7 +39,7 @@
 </table>
 @{
     int Panels = Convert.ToInt32((bigTotal * 1.3) / 300);
-    double? wattcal = (bigTotal * 1.3) / 6.38;
+    double? wattcal = (bigTotal * 1.3 * 6) / 6.38;
     int panelsForBatteries = Convert.ToInt32(wattcal / 300);
     int Batteries = Convert.ToInt32(((wattcal * 1.3) / 12) / 200);
 
@@ -78,6 +78,6 @@
 
 </div>
 <ul class="pager">
-    <li class="next"><a href="#"><span aria-hidden="true">&larr;</span> Back</a></li>
+    <li class="next"><a href="~/School/"><span aria-hidden="true">&larr;</span> Back</a></li>
 </ul>
 

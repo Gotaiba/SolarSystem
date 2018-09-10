@@ -17,12 +17,11 @@ namespace SolarSystemConsumption.Models
         public int Id { get; set; }
         public Nullable<int> SchoolNo { get; set; }
         public Nullable<int> ItemNo { get; set; }
+        public Nullable<int> AreaNo { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<bool> ForClass { get; set; }
-        public Nullable<bool> ForOffice { get; set; }
-        public Nullable<bool> ForKafteria { get; set; }
     
+        public virtual Area Area { get; set; }
         public virtual Item Item { get; set; }
         public virtual School School { get; set; }
     }

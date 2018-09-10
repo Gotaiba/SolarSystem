@@ -26,8 +26,9 @@ namespace SolarSystemConsumption.Models
         }
     
         public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<ItemsInstalled> ItemsInstalleds { get; set; }
         public virtual DbSet<School> Schools { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Area> Areas { get; set; }
+        public virtual DbSet<ItemsInstalled> ItemsInstalleds { get; set; }
     }
 }

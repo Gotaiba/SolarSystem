@@ -11,8 +11,7 @@ namespace SolarSystemConsumption.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class School
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,18 +21,12 @@ namespace SolarSystemConsumption.Models
         }
     
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
-        [Display(Name="Number of Classes")]
         public Nullable<int> ClassesCount { get; set; }
-        [Required]
-        [Display(Name = "Number of Officese")]
         public Nullable<int> OfficeseCount { get; set; }
-        [Required]
-        [Display(Name = "Number of Kafterias")]
         public Nullable<int> KafteriaCount { get; set; }
         public Nullable<System.DateTime> Created { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ItemsInstalled> ItemsInstalleds { get; set; }

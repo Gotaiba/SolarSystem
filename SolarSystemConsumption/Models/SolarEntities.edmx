@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SolarDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Items">
           <Key>
             <PropertyRef Name="Id" />
@@ -12,6 +20,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" />
           <Property Name="Consumptions" Type="bigint" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="ItemsInstalled">
           <Key>
@@ -20,11 +29,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SchoolNo" Type="int" />
           <Property Name="ItemNo" Type="int" />
+          <Property Name="AreaNo" Type="int" />
           <Property Name="Quantity" Type="int" />
           <Property Name="Created" Type="date" />
-          <Property Name="ForClass" Type="bit" />
-          <Property Name="ForOffice" Type="bit" />
-          <Property Name="ForKafteria" Type="bit" />
         </EntityType>
         <EntityType Name="Schools">
           <Key>
@@ -36,6 +43,7 @@
           <Property Name="OfficeseCount" Type="int" />
           <Property Name="KafteriaCount" Type="int" />
           <Property Name="Created" Type="date" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -47,6 +55,18 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <Association Name="FK_ItemsInstalled_Area">
+          <End Role="Area" Type="Self.Area" Multiplicity="0..1" />
+          <End Role="ItemsInstalled" Type="Self.ItemsInstalled" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ItemsInstalled">
+              <PropertyRef Name="AreaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ItemsInstalled_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ItemsInstalled" Type="Self.ItemsInstalled" Multiplicity="*" />
@@ -72,10 +92,15 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SolarDbModelStoreContainer">
+          <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemsInstalled" EntityType="Self.ItemsInstalled" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schools" EntityType="Self.Schools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ItemsInstalled_Area" Association="Self.FK_ItemsInstalled_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="ItemsInstalled" EntitySet="ItemsInstalled" />
+          </AssociationSet>
           <AssociationSet Name="FK_ItemsInstalled_Items" Association="Self.FK_ItemsInstalled_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemsInstalled" EntitySet="ItemsInstalled" />
@@ -96,22 +121,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Consumptions" Type="Int64" />
-          <NavigationProperty Name="ItemsInstalleds" Relationship="Self.FK_ItemsInstalled_Items" FromRole="Items" ToRole="ItemsInstalled" />
-        </EntityType>
-        <EntityType Name="ItemsInstalled">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SchoolNo" Type="Int32" />
-          <Property Name="ItemNo" Type="Int32" />
-          <Property Name="Quantity" Type="Int32" />
-          <Property Name="Created" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Item" Relationship="Self.FK_ItemsInstalled_Items" FromRole="ItemsInstalled" ToRole="Items" />
-          <NavigationProperty Name="School" Relationship="Self.FK_ItemsInstalled_Schools" FromRole="ItemsInstalled" ToRole="Schools" />
-          <Property Name="ForClass" Type="Boolean" />
-          <Property Name="ForOffice" Type="Boolean" />
-          <Property Name="ForKafteria" Type="Boolean" />
+          <NavigationProperty Name="ItemsInstalleds" Relationship="SolarDbModel.FK_ItemsInstalled_Items" FromRole="Item" ToRole="ItemsInstalled" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="School">
           <Key>
@@ -123,7 +134,8 @@
           <Property Name="OfficeseCount" Type="Int32" />
           <Property Name="KafteriaCount" Type="Int32" />
           <Property Name="Created" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="ItemsInstalleds" Relationship="Self.FK_ItemsInstalled_Schools" FromRole="Schools" ToRole="ItemsInstalled" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="ItemsInstalleds" Relationship="SolarDbModel.FK_ItemsInstalled_Schools" FromRole="School" ToRole="ItemsInstalled" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -135,11 +147,65 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK_ItemsInstalled_Items">
-          <End Role="Items" Type="Self.Item" Multiplicity="0..1" />
-          <End Role="ItemsInstalled" Type="Self.ItemsInstalled" Multiplicity="*" />
+        <EntityContainer Name="SolarDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Schools" EntityType="Self.School" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Areas" EntityType="SolarDbModel.Area" />
+          <EntitySet Name="ItemsInstalleds" EntityType="SolarDbModel.ItemsInstalled" />
+          <AssociationSet Name="FK_ItemsInstalled_Area" Association="SolarDbModel.FK_ItemsInstalled_Area">
+            <End Role="Area" EntitySet="Areas" />
+            <End Role="ItemsInstalled" EntitySet="ItemsInstalleds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemsInstalled_Items" Association="SolarDbModel.FK_ItemsInstalled_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemsInstalled" EntitySet="ItemsInstalleds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemsInstalled_Schools" Association="SolarDbModel.FK_ItemsInstalled_Schools">
+            <End Role="School" EntitySet="Schools" />
+            <End Role="ItemsInstalled" EntitySet="ItemsInstalleds" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ItemsInstalleds" Relationship="SolarDbModel.FK_ItemsInstalled_Area" FromRole="Area" ToRole="ItemsInstalled" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemsInstalled">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchoolNo" Type="Int32" />
+          <Property Name="ItemNo" Type="Int32" />
+          <Property Name="AreaNo" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Area" Relationship="SolarDbModel.FK_ItemsInstalled_Area" FromRole="ItemsInstalled" ToRole="Area" />
+          <NavigationProperty Name="Item" Relationship="SolarDbModel.FK_ItemsInstalled_Items" FromRole="ItemsInstalled" ToRole="Item" />
+          <NavigationProperty Name="School" Relationship="SolarDbModel.FK_ItemsInstalled_Schools" FromRole="ItemsInstalled" ToRole="School" />
+        </EntityType>
+        <Association Name="FK_ItemsInstalled_Area">
+          <End Type="SolarDbModel.Area" Role="Area" Multiplicity="0..1" />
+          <End Type="SolarDbModel.ItemsInstalled" Role="ItemsInstalled" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Items">
+            <Principal Role="Area">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ItemsInstalled">
+              <PropertyRef Name="AreaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemsInstalled_Items">
+          <End Type="SolarDbModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="SolarDbModel.ItemsInstalled" Role="ItemsInstalled" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ItemsInstalled">
@@ -148,10 +214,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ItemsInstalled_Schools">
-          <End Role="Schools" Type="Self.School" Multiplicity="0..1" />
-          <End Role="ItemsInstalled" Type="Self.ItemsInstalled" Multiplicity="*" />
+          <End Type="SolarDbModel.School" Role="School" Multiplicity="0..1" />
+          <End Type="SolarDbModel.ItemsInstalled" Role="ItemsInstalled" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Schools">
+            <Principal Role="School">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ItemsInstalled">
@@ -159,20 +225,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SolarDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Items" EntityType="Self.Item" />
-          <EntitySet Name="ItemsInstalleds" EntityType="Self.ItemsInstalled" />
-          <EntitySet Name="Schools" EntityType="Self.School" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <AssociationSet Name="FK_ItemsInstalled_Items" Association="Self.FK_ItemsInstalled_Items">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="ItemsInstalled" EntitySet="ItemsInstalleds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ItemsInstalled_Schools" Association="Self.FK_ItemsInstalled_Schools">
-            <End Role="Schools" EntitySet="Schools" />
-            <End Role="ItemsInstalled" EntitySet="ItemsInstalleds" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -182,29 +234,17 @@
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="SolarDbModel.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Consumptions" ColumnName="Consumptions" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ItemsInstalleds">
-            <EntityTypeMapping TypeName="SolarDbModel.ItemsInstalled">
-              <MappingFragment StoreEntitySet="ItemsInstalled">
-                <ScalarProperty Name="ForKafteria" ColumnName="ForKafteria" />
-                <ScalarProperty Name="ForOffice" ColumnName="ForOffice" />
-                <ScalarProperty Name="ForClass" ColumnName="ForClass" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="SchoolNo" ColumnName="SchoolNo" />
-                <ScalarProperty Name="ItemNo" ColumnName="ItemNo" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Schools">
             <EntityTypeMapping TypeName="SolarDbModel.School">
               <MappingFragment StoreEntitySet="Schools">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ClassesCount" ColumnName="ClassesCount" />
@@ -222,6 +262,27 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Areas">
+            <EntityTypeMapping TypeName="SolarDbModel.Area">
+              <MappingFragment StoreEntitySet="Area">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemsInstalleds">
+            <EntityTypeMapping TypeName="SolarDbModel.ItemsInstalled">
+              <MappingFragment StoreEntitySet="ItemsInstalled">
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="AreaNo" ColumnName="AreaNo" />
+                <ScalarProperty Name="ItemNo" ColumnName="ItemNo" />
+                <ScalarProperty Name="SchoolNo" ColumnName="SchoolNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
